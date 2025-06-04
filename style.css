@@ -21,7 +21,7 @@ body {
     left: 0;
     top: 0;
     width: 100%; 
-    height: 100%; /* コンテナ全体を覆うように設定 */
+    height: auto; /* コンテナ全体を覆うように設定 */
     object-fit: cover; /* アスペクト比を保ちつつコンテナ全体を覆う (imgタグの場合) */
                        /* もし背景として使うなら background-size: cover; を検討 */
     /* ★注意: 背景画像の内容によっては object-position や background-position で
