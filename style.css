@@ -1,0 +1,115 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0; /* ページ背景色 */
+}
+
+.game-container {
+    position: relative;
+    /* 「完成予想」図のおおよそのアスペクト比から仮設定。back_1.pngの実際の幅に合わせて調整してください */
+    width: 320px;  /* 仮の幅 */
+    height: 568px; /* 仮の高さ (iPhone SE1の画面サイズに近い比率で仮置き) */
+    border: 2px solid #333; /* コンテナの境界線（開発用） */
+    overflow: hidden; /* コンテナからはみ出した要素を隠す */
+    background-color: #fff; /* 画像が読み込まれない場合の背景 */
+}
+
+.background-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%; /* コンテナ幅に合わせる想定 */
+    /* height: auto; または特定の高さを指定 */
+}
+
+/* レイヤー情報に基づき z-index を設定 */
+.back-2 { /* レイヤー1 */
+    z-index: 1;
+    /* back_2.png がもし画面下半分や中央部分のみなら top や height の調整が必要 */
+    /* 例: top: 150px; height: 300px; など、実際の画像の内容に合わせてください */
+}
+.back-1 { /* レイヤー3 */
+    z-index: 3;
+    /* back_1.png がもし画面上半分や上下の帯のみなら、それに合わせた調整が必要 */
+}
+
+.ui-element {
+    position: absolute;
+    /* 画像本来のサイズで表示されるように、width/heightは指定しないか、
+       または「完成予想」図に合わせて具体的に指定します。 */
+}
+
+.game-item { /* ゲームエリア内のツムやボム (レイヤー2) */
+    z-index: 2;
+    width: 45px; /* 仮のツムサイズ */
+    height: 45px;/* 仮のツムサイズ */
+}
+
+/* --- UI要素の具体的な配置 (値は「完成予想」図からの目測です。要調整) --- */
+
+.stop-button { /* レイヤー4 */
+    top: 65px;   /* 仮: スコア表示エリアの下あたり */
+    right: 15px;
+    width: 48px; /* 仮サイズ */
+    height: 48px;/* 仮サイズ */
+    z-index: 4;
+}
+
+.shuffle-button { /* レイヤー4 */
+    bottom: 12px;
+    right: 15px;
+    width: 60px; /* 仮サイズ */
+    height: 60px;/* 仮サイズ */
+    z-index: 4;
+}
+
+.my-tsum { /* マイツム (レイヤー2 or 4) - ここではボタンと同じレイヤー4と仮定 */
+    top: 135px;  /* 仮: 左側のスキル名表示のあたり */
+    left: 20px;
+    width: 40px; /* 仮サイズ */
+    height: 40px;/* 仮サイズ */
+    z-index: 4; /* ボタン類と同等と仮定 */
+    border-radius: 50%; /* ツムを丸く表示する場合 */
+}
+
+/* ゲームアイテムの仮配置例 (これらの座標はランダムまたはロジックで決まるものです) */
+.tsum-ano { top: 250px; left: 80px; }
+.tsum-riyo { top: 250px; left: 150px; }
+.tsum-pyonpyon { top: 310px; left: 110px; }
+.bomb-item {
+    top: 300px;
+    left: 50px;
+    width: 50px; /* ボムは少し大きいかも */
+    height: 50px;
+}
+
+
+/* 指示のあった basic_under と basic_over の重ね表示 */
+.basic-button-stack {
+    position: absolute;
+    bottom: 15px; /* シャッフルボタンの左あたりに仮配置 */
+    left: 15px;
+    width: 60px;  /* basic_under/over のサイズに合わせる (仮) */
+    height: 60px; /* basic_under/over のサイズに合わせる (仮) */
+    /* このコンテナ自体の z-index は、中の要素が他のものとどう重なるかで決まる */
+    /* basic_over がレイヤー5なので、他のレイヤー4の要素より手前に来るように */
+    z-index: 5; /* 最も手前に来るように調整 */
+}
+
+.stacked-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.basic-under { /* レイヤー4 */
+    z-index: 1; /* basic-button-stack 内での重なり順 */
+}
+.basic-over {  /* レイヤー5 */
+    z-index: 2; /* basic-button-stack 内での重なり順 (underの上) */
+}
