@@ -1,106 +1,128 @@
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0; /* ページ背景色 */
+    margin: 0; /* ブラウザデフォルトのマージンを削除 */
+    background-color: #f0f0f0; /* コンテナ外の背景色 */
+    /* 画面全体にコンテナを配置するため、bodyでのflexやalignは不要になります */
+    /* ただし、ページ全体の高さを確実にビューポートに合わせるために以下は有効な場合があります */
+    /* min-height: 100vh; */ 
 }
 
 .game-container {
-    position: relative;
-    /* iPhone 16 Pro Max のアスペクト比 (約19.5:9) を想定 */
-    /* 幅を390pxと仮定した場合の高さ */
-    width: 390px; 
-    height: calc(390px * 19.5 / 9); /* 約845px */
+    position: relative; /* 子要素の絶対配置の基準とする */
+    width: 100vw;      /* ビューポート幅の100% */
+    height: 100vh;     /* ビューポートの高さの100% */
     
-    border: 2px solid #333; /* コンテナの境界線（開発用） */
-    overflow: hidden; /* コンテナからはみ出した要素を隠す */
-    background-color: #fff; /* 画像が読み込まれない場合の背景 */
+    overflow: hidden;  /* コンテナからはみ出した要素を隠す */
+    background-color: #fff; /* 画像が読み込まれない場合のデフォルト背景 */
+    /* border: none; スマホ表示では境界線は通常不要 */
 }
 
 .background-image {
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%; /* コンテナ幅に合わせる想定 */
-    /* height: auto; または特定の高さを指定 */
-    /* ★注意: 背景画像の実際の見え方に応じて、heightやobject-fitプロパティの調整が必要になる場合があります */
+    width: 100%; 
+    height: 100%; /* コンテナ全体を覆うように設定 */
+    object-fit: cover; /* アスペクト比を保ちつつコンテナ全体を覆う (imgタグの場合) */
+                       /* もし背景として使うなら background-size: cover; を検討 */
+    /* ★注意: 背景画像の内容によっては object-position や background-position で
+               表示位置の調整が必要になる場合があります。*/
 }
 
 /* レイヤー情報に基づき z-index を設定 */
 .back-2 { /* レイヤー1 */
     z-index: 1;
-    /* ★注意: back_2.png がもし画面下半分や中央部分のみなら top や height の調整が必要 */
 }
 .back-1 { /* レイヤー3 */
     z-index: 3;
-    /* ★注意: back_1.png がもし画面上半分や上下の帯のみなら、それに合わせた調整が必要 */
 }
 
 .ui-element {
     position: absolute;
-    /* ★注意: 画像本来のサイズで表示させるか、コンテナサイズに合わせて調整してください */
+    /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
+    /* ★注意: これ以降のUI要素のサイズと位置は、固定ピクセルのままです。          */
+    /* スマホ画面(100vw, 100vh)で適切に表示されるように、                 */
+    /* パーセンテージ、vw, vh, vmin, vmax 単位での指定や、               */
+    /* Flexbox/Grid、メディアクエリなどを使用したレスポンシブ対応が必須です。*/
+    /* ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★ */
 }
 
 .game-item { /* ゲームエリア内のツムやボム (レイヤー2) */
     z-index: 2;
-    /* ★注意: 新しいコンテナサイズに合わせてツムのサイズ調整が必要 */
-    width: 45px; /* 仮のツムサイズ (要調整) */
-    height: 45px;/* 仮のツムサイズ (要調整) */
+    /* 例: サイズをvw単位にする場合 (値は要調整) */
+    /* width: 10vw; */
+    /* height: 10vw; */
+    width: 45px; /* 仮のツムサイズ (要レスポンシブ調整) */
+    height: 45px;/* 仮のツムサイズ (要レスポンシブ調整) */
 }
 
-/* --- UI要素の具体的な配置 (値は「完成予想」図と新しいコンテナサイズに合わせて大幅な調整が必要です) --- */
+/* --- UI要素の具体的な配置 (これらの値はすべて見直しとレスポンシブ対応が必要です) --- */
 
 .stop-button { /* レイヤー4 */
-    /* ★注意: top, right, width, height は新しいコンテナに合わせて要調整 */
-    top: 85px;   /* 仮配置 (要調整) */
-    right: 20px; /* 仮配置 (要調整) */
-    width: 52px; /* 仮サイズ (要調整) */
-    height: 52px;/* 仮サイズ (要調整) */
+    /* 例: 右上からの相対位置 (値は要調整) */
+    /* top: 5vh; */
+    /* right: 5vw; */
+    /* width: 12vw; */
+    /* height: 12vw; */
+    top: 85px;   /* 仮配置 (要レスポンシブ調整) */
+    right: 20px; /* 仮配置 (要レスポンシブ調整) */
+    width: 52px; /* 仮サイズ (要レスポンシブ調整) */
+    height: 52px;/* 仮サイズ (要レスポンシブ調整) */
     z-index: 4;
 }
 
 .shuffle-button { /* レイヤー4 */
-    /* ★注意: bottom, right, width, height は新しいコンテナに合わせて要調整 */
-    bottom: 25px; /* 仮配置 (要調整) */
-    right: 20px;  /* 仮配置 (要調整) */
-    width: 70px;  /* 仮サイズ (要調整) */
-    height: 70px; /* 仮サイズ (要調整) */
+    /* 例: 右下からの相対位置 (値は要調整) */
+    /* bottom: 3vh; */
+    /* right: 5vw; */
+    /* width: 15vw; */
+    /* height: 15vw; */
+    bottom: 25px; /* 仮配置 (要レスポンシブ調整) */
+    right: 20px;  /* 仮配置 (要レスポンシブ調整) */
+    width: 70px;  /* 仮サイズ (要レスポンシブ調整) */
+    height: 70px; /* 仮サイズ (要レスポンシブ調整) */
     z-index: 4;
 }
 
-.my-tsum { /* マイツム (レイヤー2 or 4) - ここではボタンと同じレイヤー4と仮定 */
-    /* ★注意: top, left, width, height は新しいコンテナに合わせて要調整 */
-    top: 160px;  /* 仮配置 (要調整) */
-    left: 25px;  /* 仮配置 (要調整) */
-    width: 48px; /* 仮サイズ (要調整) */
-    height: 48px;/* 仮サイズ (要調整) */
+.my-tsum { /* マイツム (レイヤー4と仮定) */
+    /* 例: 左上からの相対位置 (値は要調整) */
+    /* top: 15vh; */
+    /* left: 5vw; */
+    /* width: 10vw; */
+    /* height: 10vw; */
+    top: 160px;  /* 仮配置 (要レスポンシブ調整) */
+    left: 25px;  /* 仮配置 (要レスポンシブ調整) */
+    width: 48px; /* 仮サイズ (要レスポンシブ調整) */
+    height: 48px;/* 仮サイズ (要レスポンシブ調整) */
     z-index: 4; 
     border-radius: 50%;
 }
 
-/* ゲームアイテムの仮配置例 (これらの座標はランダムまたはロジックで決まるものです) */
-/* ★注意: 新しいコンテナサイズに合わせて配置調整が必要 */
-.tsum-ano { top: 300px; left: 100px; } /* 仮配置 (要調整) */
-.tsum-riyo { top: 300px; left: 180px; } /* 仮配置 (要調整) */
-.tsum-pyonpyon { top: 380px; left: 130px; } /* 仮配置 (要調整) */
+/* ゲームアイテムの仮配置例 */
+/* ★注意: これらの座標はゲームロジックとレスポンシブ対応が必要です */
+.tsum-ano { top: 30%; left: 25%; } /* 例: パーセント指定 (要調整) */
+.tsum-riyo { top: 30%; left: 45%; } /* 例: パーセント指定 (要調整) */
+.tsum-pyonpyon { top: 40%; left: 35%; } /* 例: パーセント指定 (要調整) */
 .bomb-item {
-    top: 360px;
-    left: 60px;
-    width: 55px; /* 仮サイズ (要調整) */
-    height: 55px;/* 仮サイズ (要調整) */
+    top: 38%;
+    left: 15%;
+    /* width: 12vw; */ /* 例: vw指定 (要調整) */
+    /* height: 12vw; */
+    width: 55px; /* 仮サイズ (要レスポンシブ調整) */
+    height: 55px;/* 仮サイズ (要レスポンシブ調整) */
 }
-
 
 /* 指示のあった basic_under と basic_over の重ね表示 */
 .basic-button-stack {
     position: absolute;
-    /* ★注意: bottom, left, width, height は新しいコンテナに合わせて要調整 */
-    bottom: 25px; /* 仮配置 (要調整) */
-    left: 25px;   /* 仮配置 (要調整) */
-    width: 70px;  /* 仮サイズ (要調整) */
-    height: 70px; /* 仮サイズ (要調整) */
+    /* 例: 左下からの相対位置 (値は要調整) */
+    /* bottom: 3vh; */
+    /* left: 5vw; */
+    /* width: 15vw; */
+    /* height: 15vw; */
+    bottom: 25px; /* 仮配置 (要レスポンシブ調整) */
+    left: 25px;   /* 仮配置 (要レスポンシブ調整) */
+    width: 70px;  /* 仮サイズ (要レスポンシブ調整) */
+    height: 70px; /* 仮サイズ (要レスポンシブ調整) */
     z-index: 5; 
 }
 
